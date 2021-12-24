@@ -1,0 +1,16 @@
+{
+  "name": "ebay_fun",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Play with ebay APIs",
+  "main": "tmp.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "ebay-oauth-nodejs-client": "^1.2.1"
+  }
+}
