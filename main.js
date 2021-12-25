@@ -28,6 +28,24 @@ const search = async (query, appToken) => {
 	.catch(err => console.log(err.response))
 }
 
+const getUser = (userToken) => {
+	let base = ebayBaseURL.replace('api.', 'apiz.');
+
+	axios({
+		method: 'get',
+		url: `https://${base}/commerce/identity/v1/user/`,
+		headers: {
+			'Authorization': `Bearer ${userToken}`,
+			'Content-Type': 'application/json'
+		}
+	})
+	.then(resp => {
+		console.log(resp.data);
+	})
+	.catch(err => console.log(err))
+}
+
+
 const listInventory = (userToken) => {
 	axios({
 		method: 'get',
@@ -52,5 +70,8 @@ const listInventory = (userToken) => {
 
 	// Show inventory of a user
 	let userToken = await askForUserToken()
+	// console.log(userToken)
+
+	getUser(userToken)
 	// listInventory(userToken)
 })();

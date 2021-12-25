@@ -78,7 +78,8 @@ const askForUserToken = async () => {
 	if (tokenExpired(rawToken)) {
 		const scopes = [
 			'https://api.ebay.com/oauth/api_scope/sell.inventory',
-			'https://api.ebay.com/oauth/api_scope/sell.inventory.readonly'
+			'https://api.ebay.com/oauth/api_scope/sell.inventory.readonly',
+			'https://api.ebay.com/oauth/api_scope/commerce.identity.readonly',
 		];
 
 		const authUrl = ebayAuthToken.generateUserAuthorizationUrl(environment, scopes);
