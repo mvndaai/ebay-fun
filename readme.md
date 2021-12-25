@@ -20,3 +20,5 @@ Getting tokens
 https://github.com/eBay/ebay-oauth-nodejs-client
 
 Testing redirect uri https://pipedream.com/
+
+Query copier for redirect testing https://mvndaai.com/query-copier/

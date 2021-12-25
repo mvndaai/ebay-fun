@@ -11,6 +11,9 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.24.0",
-    "ebay-oauth-nodejs-client": "^1.2.1"
+    "clipboardy": "^3.0.0",
+    "ebay-oauth-nodejs-client": "^1.2.1",
+    "keyv": "^4.0.4",
+    "keyv-file": "^0.2.0"
   }
 }
