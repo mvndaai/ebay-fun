@@ -22,7 +22,7 @@ const tokenDBKey = (type) => `token-${type}-${environment}`
 const updateToken = async (type, value) => await keyv.set(tokenDBKey(type), value);
 const lastToken = async (type) => await keyv.get(tokenDBKey(type));
 
-const expirationKey = 'expaireDate'
+const expirationKey = 'expireDate'
 const extractAccessToken = (token) => JSON.parse(token)['access_token'];
 const tokenExpired = (token) => {
 	if (!token)
@@ -36,12 +36,13 @@ const tokenExpired = (token) => {
 	let expirationDate = new Date(JSON.parse(expirationDateStr));
 	let bufferSeconds = 5;
 
-	let now = new Date(new Date().getTime() - (bufferSeconds * 1000))
-	if (expirationDate < now)
+	let now = new Date(new Date().getTime() - (bufferSeconds * 100))
+	if (expirationDate > now)
 		return false
 
 	return true
 }
+
 const addExpirationDate = (token, creationTime) => {
 	if (!token)
 		return token
@@ -51,7 +52,7 @@ const addExpirationDate = (token, creationTime) => {
 	if (!expirationSeconds)
 		return token
 
-	let expirationDate = new Date(creationTime.getTime() + (int(expirationSeconds) *1000))
+	let expirationDate = new Date(creationTime.getTime() + (parseInt(expirationSeconds) * 100))
 	parsed[expirationKey] = JSON.stringify(expirationDate)
 
 	return JSON.stringify(parsed);
@@ -61,6 +62,7 @@ const getAppToken = async () => {
 	let tokenType = 'app';
 	let rawToken = await lastToken(tokenType);
 	if (tokenExpired(rawToken)) {
+		// TOOD get refresh token
 		let now = new Date()
 		rawToken = await ebayAuthToken.getApplicationToken(environment);
 		rawToken = addExpirationDate(rawToken, now)

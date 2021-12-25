@@ -47,10 +47,10 @@ const listInventory = (userToken) => {
 (async () => {
 
 	// Search
-	let query = 'Topps Project 70 Card 386 - 1990 Catfish Hunter by Claw Money GOLD FRAME'
-	search(query)
+	// let query = 'Topps Project 70 Card 386 - 1990 Catfish Hunter by Claw Money GOLD FRAME'
+	// search(query)
 
-	// let userToken = await askForUserToken()
-	// console.log(userToken)
+	// Show inventory of a user
+	let userToken = await askForUserToken()
 	// listInventory(userToken)
 })();
