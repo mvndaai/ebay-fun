@@ -35,7 +35,8 @@ const tokenExpired = (token) => {
 
 	let expirationDate = new Date(JSON.parse(expirationDateStr));
 	let bufferSeconds = 5;
-	let now = (new Date()) - bufferSeconds
+
+	let now = new Date(new Date().getTime() - (bufferSeconds * 1000))
 	if (expirationDate < now)
 		return false
 
@@ -50,7 +51,7 @@ const addExpirationDate = (token, creationTime) => {
 	if (!expirationSeconds)
 		return token
 
-	let expirationDate = creationTime + expirationSeconds
+	let expirationDate = new Date(creationTime.getTime() + (int(expirationSeconds) *1000))
 	parsed[expirationKey] = JSON.stringify(expirationDate)
 
 	return JSON.stringify(parsed);
