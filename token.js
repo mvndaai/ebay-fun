@@ -62,12 +62,12 @@ const getAppToken = async () => {
 	let tokenType = 'app';
 	let rawToken = await lastToken(tokenType);
 	if (tokenExpired(rawToken)) {
-		// TOOD get refresh token
 		let now = new Date()
 		rawToken = await ebayAuthToken.getApplicationToken(environment);
 		rawToken = addExpirationDate(rawToken, now)
 		await updateToken(tokenType, rawToken)
 	}
+
 	return extractAccessToken(rawToken);
 }
 
@@ -76,6 +76,8 @@ const askForUserToken = async () => {
 	let rawToken = await lastToken(tokenType);
 
 	if (tokenExpired(rawToken)) {
+		// TOOD get refresh token
+
 		const scopes = [
 			'https://api.ebay.com/oauth/api_scope/sell.inventory',
 			'https://api.ebay.com/oauth/api_scope/sell.inventory.readonly',
@@ -95,6 +97,8 @@ const askForUserToken = async () => {
 		rawToken = addExpirationDate(rawToken, now)
 		await updateToken(tokenType, rawToken)
 	}
+	// console.log(JSON.parse(rawToken))
+
 
 	return extractAccessToken(rawToken);
 }

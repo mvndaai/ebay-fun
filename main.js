@@ -3,7 +3,6 @@ import { ebayBaseURL,getAppToken, askForUserToken } from './token.js';
 
 
 const search = async (query, appToken) => {
-
 	if (!appToken) appToken = await getAppToken();
 
 	console.log('searching for:', query)
@@ -24,9 +23,11 @@ const search = async (query, appToken) => {
 		}));
 		console.log(summary);
 		return summary;
-	})
-	.catch(err => console.log(err.response))
-}
+	},
+	(err) => {
+		console.log(err.response.status, err.response.statusText)
+		console.log(JSON.stringify(err.response.data, '', ' '))
+	})}
 
 const getUser = (userToken) => {
 	let base = ebayBaseURL.replace('api.', 'apiz.');
@@ -41,15 +42,39 @@ const getUser = (userToken) => {
 	})
 	.then(resp => {
 		console.log(resp.data);
+	},
+	(err) => {
+		console.log(err.response.status, err.response.statusText)
+		console.log(JSON.stringify(err.response.data, '', ' '))
 	})
-	.catch(err => console.log(err))
 }
 
+const migrateInventory = (skus, userToken) => {
+	// https://developer.ebay.com/api-docs/sell/inventory/resources/listing/methods/bulkMigrateListing#_samples
+	let body = { requests: skus.map(v => ({listingId: v})) };
+
+	axios({
+		method: 'post',
+		url: `https://${ebayBaseURL}/sell/inventory/v1/bulk_migrate_listing`,
+		headers: {
+			'Authorization': `Bearer ${userToken}`,
+			'Content-Type': 'application/json'
+		},
+		data: body,
+	})
+	.then(resp => {
+		console.log(resp.data);
+	},
+	(err) => {
+		console.log(err.response.status, err.response.statusText)
+		console.log(JSON.stringify(err.response.data, '', ' '))
+	})
+}
 
 const listInventory = (userToken) => {
 	axios({
 		method: 'get',
-		url: `https://${ebayBaseURL}/sell/inventory/v1/inventory_item&limit=3`,
+		url: `https://${ebayBaseURL}/sell/inventory/v1/inventory_item?limit=3`,
 		headers: {
 			'Authorization': `Bearer ${userToken}`,
 			'Content-Type': 'application/json'
@@ -57,8 +82,11 @@ const listInventory = (userToken) => {
 	})
 	.then(resp => {
 		console.log(resp.data);
+	},
+	(err) => {
+		console.log(err.response.status, err.response.statusText)
+		console.log(JSON.stringify(err.response.data, '', ' '))
 	})
-	.catch(err => console.log(err))
 }
 
 
@@ -72,6 +100,7 @@ const listInventory = (userToken) => {
 	let userToken = await askForUserToken()
 	// console.log(userToken)
 
-	getUser(userToken)
+	// getUser(userToken)
+	// migrateInventory([''], userToken)
 	// listInventory(userToken)
 })();
